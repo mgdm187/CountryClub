@@ -152,6 +152,7 @@ namespace CountryClubMVC.Controllers
 
         public async Task<IActionResult> Odjava()
         {
+            //
             await HttpContext.SignOutAsync(
         CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
