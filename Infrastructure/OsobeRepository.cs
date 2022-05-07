@@ -78,7 +78,6 @@ namespace Infrastructure
                 entity.Email = osoba.Email;
                 entity.Telefon = osoba.Telefon;
                 entity.DatumRodenja = osoba.DatumRodenja;
-                entity.Status = (int)osoba.Status;
                 entity.IdMjesto = osoba.IdMjesto;
                 entity.Oib = osoba.Oib;
                 await ctx.SaveChangesAsync();

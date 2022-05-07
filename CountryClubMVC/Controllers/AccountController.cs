@@ -98,10 +98,15 @@ namespace CountryClubMVC.Controllers
             {
                 try
                 {
+                    var nazivUloge = osoba.nazivUloga;
+                    if(nazivUloge == "član")
+                    {
+                        nazivUloge = "clan";
+                    }
                     var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, osoba.Username),
-                            new Claim(ClaimTypes.Role, osoba.nazivUloga)
+                            new Claim(ClaimTypes.Role, nazivUloge)
                         };
 
                     var claimsIdentity = new ClaimsIdentity(
@@ -156,6 +161,25 @@ namespace CountryClubMVC.Controllers
             await HttpContext.SignOutAsync(
         CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> MojRacun()
+        {
+            var osoba = await osobeRepository.GetOsobaByUsername(User.Identity.Name);
+            if (osoba == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var uloge = await ulogeRepository.GetUloge();
+                ViewBag.Uloge = new SelectList(uloge,
+                  dataValueField: nameof(DomainModel.Uloga.IdUloga),
+                  dataTextField: nameof(DomainModel.Uloga.NazivUloga));
+
+
+                return View(osoba);
+            }
         }
     }
 }

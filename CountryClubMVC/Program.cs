@@ -32,6 +32,12 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("Role", "admin"));
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ClanKluba", policy =>
+        policy.RequireClaim("Role", "clan"));
+});
+
 
 #region Setup dependencies
 builder.Services.AddDbContext<CountryclubContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Project")));
