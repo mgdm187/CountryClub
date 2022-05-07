@@ -1,0 +1,26 @@
+﻿@model DomainModel.Mjesto
+@{
+  ViewBag.Title = $"Promijeni mjesto {Model.NazivMjesto}";
+}
+
+<h5>Uredi mjesto <i>@Model.NazivMjesto</i></h5>
+
+<form method="post">
+  <input type="hidden" asp-for="IdMjesto"/>
+  <div asp-validation-summary="All"></div>
+  <div class="form-floating mb-3">
+    <input asp-for="NazivMjesto" class="form-control">
+    <label asp-for="NazivMjesto"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Pbr" class="form-control">
+    <label asp-for="Pbr"></label>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-sm btn-primary">Save <i class="fas fa-save ms-1"></i></button>
+  </div>
+</form>
+
+@section Scripts{
+  <partial name="_ValidationScriptsPartial"/>
+}

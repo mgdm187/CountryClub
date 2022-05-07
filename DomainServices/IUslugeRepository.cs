@@ -1,0 +1,16 @@
+﻿using DomainModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DomainServices
+{
+    public interface IUslugeRepository
+    {
+        Task<IList<Usluga>> GetUsluge();
+        Task<Usluga> GetUslugaById(int idUsluga);
+        Task<int> SaveUsluga(Usluga usluga);
+    }
+}

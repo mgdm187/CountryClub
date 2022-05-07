@@ -1,0 +1,21 @@
+﻿@model DomainModel.Uloga
+@{
+  ViewBag.Title = "Dodaj novu ulogu";
+}
+
+<h5>Dodaj novu ulogu</h5>
+
+<form method="post">
+  <div asp-validation-summary="All"></div>
+  <div class="form-floating mb-3">
+    <input asp-for="NazivUloga" class="form-control">
+    <label asp-for="NazivUloga"></label>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-sm btn-primary">Save <i class="fas fa-save ms-1"></i></button>
+  </div>
+</form>
+
+@section Scripts{
+  <partial name="_ValidationScriptsPartial"/>
+}

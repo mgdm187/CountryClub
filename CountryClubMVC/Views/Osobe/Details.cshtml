@@ -1,0 +1,24 @@
+﻿@model DomainModel.Osoba
+@{
+  ViewBag.Title = Model.PunoIme;
+}
+
+<h5>@Model.Ime @Model.Prezime</h5>
+<p><strong>Oib: </strong> @Model.Oib, <strong>Email: </strong>@Model.Email</p>
+<p><strong>Telefon: </strong> @Model.Telefon</p>
+<p><strong>Adresa: </strong> @Model.Adresa</p>
+<p><strong>Mjesto: </strong> @Model.NazivMjesto</p>
+<p><strong>Poštanski broj: </strong> @Model.Pbr</p>
+<p><strong>Datum rođenja: </strong> @Model.DatumRodenja.ToString("dd.MM.yyyy.")</p>
+<p><strong>Član od: </strong> @Model.DatumPrijave.ToString("dd.MM.yyyy.")</p>
+<p><strong>Korisničko ime: </strong> @Model.Username</p>
+<div class="row">
+  <div class="col-2">
+    <a asp-action="Edit" asp-route-id="@Model.IdOsoba" class="btn btn-dark">Edit <i class="fas fa-edit ms-1"></i></a>
+  </div>
+  <div class="col-2">
+     <form method="post" asp-action="Delete" asp-route-id="@Model.IdOsoba">
+      <button type="submit" class="btn btn-danger">Delete <i class="fas fa-trash-alt ms-1"></i></button>
+  </form>
+  </div>
+</div>

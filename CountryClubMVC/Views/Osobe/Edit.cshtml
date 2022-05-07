@@ -1,0 +1,58 @@
+﻿@model OsobaViewModel
+@{
+  ViewBag.Title = "Uredi podatke";
+}
+
+<h5>Uredi podatke</h5>
+
+<form method="post">
+    <input type="hidden" asp-for=IdOsoba />
+  <div asp-validation-summary="All"></div>
+  <div class="form-floating mb-3">
+    <input asp-for="Ime" class="form-control">
+    <label asp-for="Ime"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Prezime" class="form-control">
+    <label asp-for="Prezime"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="DatumRodenja" class="form-control">
+    <label asp-for="DatumRodenja"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Email" class="form-control">
+    <label asp-for="Email"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Username" class="form-control">
+    <label asp-for="Username"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Telefon" class="form-control">
+    <label asp-for="Telefon"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Oib" class="form-control">
+    <label asp-for="Oib"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Adresa" class="form-control">
+    <label asp-for="Adresa"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Pbr" class="form-control">
+    <label asp-for="Pbr"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Mjesto" class="form-control">
+    <label asp-for="Mjesto"></label>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-sm btn-primary">Save <i class="fas fa-save ms-1"></i></button>
+  </div>
+</form>
+
+@section Scripts{
+  <partial name="_ValidationScriptsPartial"/>
+}

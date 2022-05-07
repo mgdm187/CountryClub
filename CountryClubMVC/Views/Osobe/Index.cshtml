@@ -1,0 +1,54 @@
+﻿@model IList<DomainModel.OsobaList>
+@{
+  ViewBag.Title = "Osobe";
+}
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Ime</th>
+        <th scope="col">Prezime</th>
+        <th scope="col">Status</th>
+        <th scope="col">Email</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td><a asp-action="Details" asp-route-id="@item.IdOsoba">@item.Ime</a></td>
+          <td><a asp-action="Details" asp-route-id="@item.IdOsoba">@item.Prezime</a></td>
+          <td>@item.Status.ToString()</td>
+          <td>@item.Email</td>
+          <td>
+            <form method="post" asp-action="Delete" asp-route-id="@item.IdOsoba">
+                <button type="submit" class="btn btn-danger confirm-delete">Delete <i class="fas fa-trash-alt ms-1"></i></button>
+            </form>
+            @*<form method="post" asp-action="BlokirajClana" 
+                                asp-route-osobaId="@item.IdOsoba" 
+                                asp-route-status="3">
+                <button type="submit" class="btn btn-danger">Blokirati člana <i class="fas fa-trash-alt ms-1"></i></button>
+            </form>*@
+          </td>
+        </tr>
+      }
+      </tbody>
+  </table>
+</div>
+<p>
+  <a asp-action="Create" class="btn btn-sm btn-primary">Dodaj novu osobu</a>
+</p>
+
+@*@section Scripts {
+  <script>
+  $(function () {
+    $('.blokirajclana').each(function () { 
+      $(this).change(function () {        
+        blokirajClana($(this).val(), $(this).data('osobaId'), $(this).data('status'));
+      });
+    });
+  });
+  </script>
+}*@

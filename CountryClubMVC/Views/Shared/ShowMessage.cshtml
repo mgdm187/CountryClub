@@ -1,0 +1,18 @@
+﻿@using CountryClubMVC.Extensions;
+
+<script>
+@{
+  ActionStatus status = TempData.Get<ActionStatus>(Constants.ActionStatus);
+  if (status != null)
+  {
+    if (status.Successful)
+    {
+      <text> toastr.success('@status.Message');</text>
+    }
+    else
+    {
+      <text> toastr.error('@status.Message');</text>
+    }
+  }    
+}
+</script>

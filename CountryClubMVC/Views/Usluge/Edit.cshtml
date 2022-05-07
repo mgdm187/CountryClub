@@ -1,0 +1,30 @@
+﻿@model DomainModel.Usluga
+@{
+  ViewBag.Title = $"Promijeni uslugu {Model.NazivUsluga}";
+}
+
+<h5>Uredi mjesto <i>@Model.NazivUsluga</i></h5>
+
+<form method="post">
+  <input type="hidden" asp-for="IdUsluga"/>
+  <div asp-validation-summary="All"></div>
+  <div class="form-floating mb-3">
+    <input asp-for="NazivUsluga" class="form-control">
+    <label asp-for="NazivUsluga"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="CijenaUsluga" class="form-control">
+    <label asp-for="CijenaUsluga"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="Kapacitet" class="form-control">
+    <label asp-for="Kapacitet"></label>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-sm btn-primary">Save <i class="fas fa-save ms-1"></i></button>
+  </div>
+</form>
+
+@section Scripts{
+  <partial name="_ValidationScriptsPartial"/>
+}

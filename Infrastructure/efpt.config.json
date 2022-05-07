@@ -1,0 +1,67 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "CountryclubContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "EFModel",
+   "ProjectRootNamespace": "Infrastructure",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Clanarina]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Mjesto]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Osoba]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Racun]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Rezervacija]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RezerviranaUsluga]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Uloga]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Usluga]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "MAGDA.CountryClub",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}

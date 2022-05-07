@@ -1,0 +1,34 @@
+﻿@model DomainModel.Clanarina
+@{
+  ViewBag.Title = $"Promijeni naziv za članarinu {Model.NazivClanarina}";
+}
+
+<h5>Edit role <i>@Model.NazivClanarina</i></h5>
+
+<form method="post">
+  <input type="hidden" asp-for="IdClanarina"/>
+  <div asp-validation-summary="All"></div>
+  <div class="form-floating mb-3">
+    <input asp-for="NazivClanarina" class="form-control">
+    <label asp-for="NazivClanarina"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="CijenaClanarina" class="form-control">
+    <label asp-for="CijenaClanarina"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="OdGodine" class="form-control">
+    <label asp-for="OdGodine"></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input asp-for="DoGodine" class="form-control">
+    <label asp-for="DoGodine"></label>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-sm btn-primary">Save <i class="fas fa-save ms-1"></i></button>
+  </div>
+</form>
+
+@section Scripts{
+  <partial name="_ValidationScriptsPartial"/>
+}

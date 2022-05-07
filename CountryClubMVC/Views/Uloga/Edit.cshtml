@@ -1,0 +1,22 @@
+﻿@model DomainModel.Uloga
+@{
+  ViewBag.Title = $"Promijeni naziv za ulogu {Model.NazivUloga}";
+}
+
+<h5>Edit role <i>@Model.NazivUloga</i></h5>
+
+<form method="post">
+  <input type="hidden" asp-for="IdUloga"/>
+  <div asp-validation-summary="All"></div>
+  <div class="form-floating mb-3">
+    <input asp-for="NazivUloga" class="form-control">
+    <label asp-for="NazivUloga"></label>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-sm btn-primary">Save <i class="fas fa-save ms-1"></i></button>
+  </div>
+</form>
+
+@section Scripts{
+  <partial name="_ValidationScriptsPartial"/>
+}

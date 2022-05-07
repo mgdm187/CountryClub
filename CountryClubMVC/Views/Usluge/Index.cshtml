@@ -1,0 +1,33 @@
+﻿@model IList<DomainModel.Usluga>
+@{
+  ViewBag.Title = "Usluge";
+}
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Usluga</th>
+        <th scope="col">Cijena</th>
+        <th scope="col">Kapacitet</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>@item.NazivUsluga</td>
+          <td>@item.CijenaUsluga</td>
+          <td>@item.Kapacitet</td>
+          <td><a asp-action="Edit" asp-route-id="@item.IdUsluga" class="btn btn-dark">Edit <i class="fas fa-edit ms-1"></i></a></td>
+          
+        </tr>
+      }
+      </tbody>
+  </table>
+</div>
+<p>
+  <a asp-action="Create" class="btn btn-sm btn-primary">Dodaj novu uslugu</a>
+</p>
