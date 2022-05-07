@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CountryClubMVC.Controllers
 {
-    [Authorize(Policy ="Admin")]
+    [Authorize]
     public class OsobeController : Controller
     {
         private readonly IOsobeRepository osobeRepository;
@@ -34,12 +34,14 @@ namespace CountryClubMVC.Controllers
             this.clanarineRepository = clanarineRepository;
         }
 
+        [Authorize("Admin")]
         public async Task<IActionResult> Index()
         {
             var data = await osobeRepository.GetOsobe();
             return View(data);
         }
 
+        [Authorize("Admin")]
         public async Task<IActionResult> Details(int id)
         {
             var osoba = await osobeRepository.GetOsobaById(id);
@@ -63,12 +65,14 @@ namespace CountryClubMVC.Controllers
             }
         }
 
+        [Authorize("Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize("Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(OsobaViewModel model)
         {
@@ -119,7 +123,16 @@ namespace CountryClubMVC.Controllers
                 try
                 {
                     var osoba = mapper.Map<DomainModel.Osoba>(model);
+                    
                     await osoba.Validate(validators);
+                    DomainModel.Mjesto mjesto = await mjestaRepository.GetMjestoByPbr(model.Pbr);
+                    if(mjesto == null)
+                    {
+                        mjesto.NazivMjesto = osoba.NazivMjesto;
+                        mjesto.Pbr = osoba.Pbr;
+                        mjesto.IdMjesto = await mjestaRepository.SaveMjesto(mjesto);
+                    }
+                    osoba.IdMjesto = mjesto.IdMjesto.Value;
                     await osobeRepository.SaveOsoba(osoba);
                     return RedirectToAction(nameof(Details), new { id = model.IdOsoba });
                 }
@@ -135,6 +148,7 @@ namespace CountryClubMVC.Controllers
             }
         }
 
+        [Authorize("Admin")]
         [HttpPost]
         public async Task<JsonResult> BlokirajClana(int personId)
         {

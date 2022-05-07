@@ -53,6 +53,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Account" asp-action="Odjava">Odjava</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                             <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Account" asp-action="MojRacun">Moj račun</a>
+                        </li>
+                        }
+                       
                     </ul>
                 </div>
             </div>
