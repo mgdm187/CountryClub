@@ -1,0 +1,54 @@
+﻿@model DomainModel.Rezervacija
+@{
+  ViewBag.Title = "Rezervacija " + Model.IdRezervacija;
+}
+
+<h5>Početak: @Model.DatumPocetka</h5>
+<h5>Završetak: @Model.DatumZavrsetka</h5>
+<p><strong>Datum kreiranja: </strong> @Model.DatumKreiranja</p>
+<p><strong>Cijena: </strong> @Model.CijenaRezervacije</p>
+
+@*@if(Model.DatumKreiranja.AddDays(5) < DateTime.Now.Date)
+{*@
+<div class="row">
+  <div class="col-2">
+     <form method="post" asp-action="Delete" asp-route-id="@Model.IdRezervacija">
+      <button type="submit" disabled="false" class="btn btn-danger">Delete <i class="fas fa-trash-alt ms-1"></i></button>
+     </form>
+  </div>
+</div>
+@*}*@
+
+<br>
+@if(Model.Usluge.Count > 0)
+{
+  <div class="table-responsive pt-2">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Usluga</th>
+        <th scope="col">OD</th>
+        <th scope="col">DO</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model.Usluge)
+      {
+        <tr>
+          <td>
+            @item.NazivUsluge
+          </td>
+          <td>
+            @item.Od.ToString("dd.MM.yyyy. HH:mm")
+          </td>
+          <td>
+            @item.Do.ToString("dd.MM.yyyy. HH:mm")
+          </td>
+        </tr>
+      }
+      </tbody>
+  </table>
+</div>
+}
+
+

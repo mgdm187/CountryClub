@@ -19,7 +19,6 @@ namespace CountryClubMVC
             CreateMap<Osoba, KorisnickiRacunViewModel>()
                 .ForMember(dest => dest.Mjesto, act => act.MapFrom(src => src.NazivMjesto))
                 .ForMember(dest => dest.Lozinka, act => act.MapFrom(src => src.Lozinka));
-
         }
     }
 }

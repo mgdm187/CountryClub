@@ -35,16 +35,6 @@ namespace DomainModel.Validation
                                         .WithMessage("Datum rođenja neispravan."));
 
 
-            When(p => p.Rezervacije != null, () =>
-            {
-                RuleFor(p => p.Rezervacije.Count)
-                    .LessThanOrEqualTo(2)
-                    .WithMessage("Osoba može imati samo dvije rezervacije u danu!");
-                RuleFor(p => p.Rezervacije.Select(p => p.IdRezervacija).Distinct().Count())
-                    .Equal(p => p.Rezervacije.Count())
-                    .WithMessage("Nisu dopušteni duplikati rezervacija.");
-            });
-
         }
 
         private async Task<bool> UsernameJedinstven(Osoba osoba, string name, CancellationToken cancellationToken)

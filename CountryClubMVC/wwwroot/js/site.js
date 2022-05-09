@@ -8,23 +8,17 @@
 });
 
 
-//function changeRole(roleId, projectId, personId) {
-//    // applicationBaseUrl is set in Layout.cshtml
-//    const payload = { roleId: roleId, projectId: projectId, personId: personId };
-//    $.post(window.applicationBaseUrl + "People/ChangeRole", payload, function (data) {
-//        if ('successful' in data) {
-//            if (data.successful) {
-//                toastr.success(data.message);
-//            }
-//            else {
-//                toastr.error(data.message);
-//            }
-//        }
-//        else {
-//            toastr.error(data);
-//        }
-//    })
-//        .fail(function (response) {
-//            toastr.error(`${response.status} ${response.responseText}`);
-//        });
-//}
+function changeRole() {
+    //$.each(localStorage.getItem("lista"), function (key, item) {
+    //    html += '<div class="col-3">';
+    //    html += '<p>' + item.Usluga + '</p></div>';
+    //    html += '<div class="col-3"><p>' + item.Pocetak + '</p></div>';
+    //    html += '<div class="col-3"><p>' + item.Zavrsetak + '</p></div>';
+    //    html += '<div class="col-3"><button type=button" id="obrisi">Obrisi</button></div>';
+    //});
+    html += '<br /><div class="row"><div class="col-3">';
+    html += '<select class="form-select" name="ulogaId" asp-items="ViewBag.Uloge"></select></div>';
+    html += '<div class="col-3"><input type="time" name="pocetak" /></div>';
+    html += '<div class="col-3"><input type="time" name="pocetak" /></div>';
+    html += '<div class="col-3"><button type="button" id="add" /></div>';
+}

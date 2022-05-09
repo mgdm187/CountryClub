@@ -138,6 +138,18 @@ namespace Infrastructure
                                 .FirstOrDefaultAsync();
                 data.NazivMjesto = mjesto.NazivMjesto;
                 data.Pbr = mjesto.Pbr;
+                var rezervacije = await ctx.Rezervacija
+                            .Where(u => u.IdOsoba == data.IdOsoba)
+                            .Select(r => new DomainModel.ListaRezervacija
+                            {
+                                IdRezervacija = r.IdRezervacija,
+                                Od = r.DatumPocetka,
+                                Do = r.DatumZavrsetka,
+                                Cijena = r.CijenaRezervacije,
+                                IdOsoba = r.IdOsoba
+                            })
+                            .ToListAsync();
+                data.Rezervacije = rezervacije;
             }
 
             return data;
@@ -187,6 +199,18 @@ namespace Infrastructure
                                 .FirstOrDefaultAsync();
                 data.NazivMjesto = mjesto.NazivMjesto;
                 data.Pbr = mjesto.Pbr;
+                var rezervacije = await ctx.Rezervacija
+                            .Where(u => u.IdOsoba == data.IdOsoba)
+                            .Select(r => new DomainModel.ListaRezervacija
+                            {
+                                IdRezervacija = r.IdRezervacija,
+                                Od = r.DatumPocetka,
+                                Do = r.DatumZavrsetka,
+                                Cijena = r.CijenaRezervacije,
+                                IdOsoba = r.IdOsoba
+                            })
+                            .ToListAsync();
+                data.Rezervacije = rezervacije;
             }
 
             return data;

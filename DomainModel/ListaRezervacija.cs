@@ -12,5 +12,6 @@ namespace DomainModel
         public DateTime Od { get; set; }
         public DateTime Do { get; set; }
         public decimal Cijena { get; set; }
+        public int IdOsoba { get; set; }
     }
 }

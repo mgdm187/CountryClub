@@ -25,6 +25,7 @@ namespace Infrastructure.ValidationRequestHandlers
                                           .Where(p => p.Username == request.Username)
                                           .Where(p => p.IdOsoba != request.Osoba.IdOsoba)
                                           .AnyAsync();
+
             return !alreadyExists;
         }
     }

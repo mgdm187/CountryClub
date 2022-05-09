@@ -1,0 +1,42 @@
+﻿@model IList<DomainModel.ListaRezervacija>
+@{
+  ViewBag.Title = "Rezervacije";
+}
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Početak rezervacije</th>
+        <th scope="col">Završetak rezervacije</th>
+        <th scope="col">Cijena</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td class="datumpoc"><a asp-action="Details" asp-route-id="@item.IdRezervacija">@item.Od.ToString("dd.MM.yyyy. HH:mm")</a></td>
+          <td><a asp-action="Details" asp-route-id="@item.IdRezervacija">@item.Do.ToString("dd.MM.yyyy. HH:mm")</a></td>
+          <td>@item.Cijena</td>
+          <td>
+                            <form method="post" asp-action="Delete" asp-route-id="@item.IdRezervacija">
+                                <button type="submit" class="btn btn-danger confirm-delete">Delete <i class="fas fa-trash-alt ms-1"></i></button>
+                            </form>
+          </td>
+        </tr>
+      }
+      </tbody>
+  </table>
+</div>
+
+<p>
+  <a asp-action="Create" class="btn btn-sm btn-primary">Rezerviraj uslugu</a>
+</p>
+
+@section Scripts {
+  <script>
+
+  </script>
+}

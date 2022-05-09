@@ -10,8 +10,9 @@ namespace DomainServices
     public interface IRezervacijeRepository
     {
         Task<Rezervacija> GetRezervacija(int idRezervacija);
-        Task<IList<Rezervacija>> GetRezervacije(int idOsoba);
-        Task SaveRezervacija(Rezervacija rezervacija);
-        Task DeleteRezervacija(int idRezervacija);
+        Task<IList<ListaRezervacija>> GetRezervacije();
+        Task<IList<ListaRezervacija>> GetRezervacije(int idOsoba);
+        Task<int> SaveRezervacija(Rezervacija rezervacija);
+        Task<bool> DeleteRezervacija(int idRezervacija);
     }
 }

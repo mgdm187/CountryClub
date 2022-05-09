@@ -1,0 +1,211 @@
+﻿@model RezervacijeViewModel
+@{
+  ViewBag.Title = "Rezerviraj uslugu";
+}
+
+<h5>Rezerviraj</h5>
+
+<form method="post">
+  <div asp-validation-summary="All"></div>
+  <div class="form-floating mb-3">
+    <input  id="datum" name="datum" class="form-control">
+    @*<label asp-for="Datum"></label>*@
+  </div>
+  <hr />
+  <div class="row" id="tablica">
+      <table class="table table-responsive" id="tablicaUsluga">
+
+      </table>
+  </div>
+  <br />
+  <div class="row" id="unos">
+      <table id="uslugeTable" class="d-lg-table table-striped table-md">
+          <thead>
+              <tr>
+                  <th>
+                      Usluga
+                  </th>
+                  @*<th>
+                      Početak
+                  </th>*@
+                  <th>
+                      Vrijeme
+                  </th>
+                  <th>
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+                    <tr id="mainrow">
+                        <td>
+                            <select class="pc form-select" id="idUsluga" asp-items="ViewBag.Usluge">
+                            </select>
+                        </td>
+                        @*<td>
+                            <input id="pocetak" name="pocetak"  class="pocetak form-control" />
+                        </td>*@
+                        <td>
+                            <input id="kraj" name="kraj" class="kraj form-control" />
+                        </td>
+                        <td>
+                            <input id="add" type="button" value="Dodaj" class="btn btn-sm btn-success visible" />
+                        </td>
+                    </tr>
+            </tbody>
+      </table>
+  </div>
+</form>
+  <div>
+    <button type="submit" class="btn btn-sm btn-primary" onclick="SubmitRezervacija();">Save <i class="fas fa-save ms-1"></i></button>
+  </div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <partial name="_ValidationScriptsPartial"/>
+  <script>
+
+      $(document).on('focus',".kraj", function(){
+    $(this).daterangepicker({
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 1,
+            timePickerSeconds: false,
+            locale: {
+                format: 'HH:00'
+            }
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+});
+          $('input[name="datum"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minDate: moment().startOf('day').add(1, 'day'),
+            maxDate: moment().startOf('day').add(10, 'day'),
+            locale: {
+                format: 'DD.MM.YYYY.'
+                }
+          });
+
+        //  $('#pocetak').daterangepicker({
+        //      singleDatePicker: true,
+        //    timePicker: true,
+        //    timePicker24Hour: true,
+        //    timePickerIncrement: 1,
+        //    timePickerSeconds: false,
+        //    locale: {
+        //        format: 'HH:mm'
+        //    }
+        //}).on('show.daterangepicker', function (ev, picker) {
+        //    picker.container.find(".calendar-table").hide();
+        //});
+
+
+        $('#kraj').daterangepicker({
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 1,
+            timePickerSeconds: false,
+            locale: {
+                format: 'HH:mm'
+            }
+        }, function(start, end, label){
+                alert('start: ' + start);
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+
+
+      $(document).ready(function () {
+          $('#add').click(function () {
+               var id = $("#idUsluga").val();
+               //var pocetak = $("#pocetak").val();
+               var kraj = $("#kraj").val();
+               var pocetak = kraj.split(' - ')[0];
+               kraj = kraj.split(' - ')[1];
+               var isAllValid = true;
+               if(kraj == '' || kraj == undefined){
+                   alert('Morate upisati vrijeme završetka.');
+                   isAllValid = false;
+               }
+               //var list = [];
+
+               // $('#tablicaUsluga tr').each(function (index, ele){
+               //     var rezItem = {
+               //         Usluga: ($('select.pc', this).val()),
+               //         Pocetak: ($('.kraj', this).val().split(' - ')[0]),
+               //         Zavrsetak: ($('.kraj', this).val().split(' - ')[1])
+               // }
+               //     list.push(rezItem);
+               // });
+
+               if(isAllValid){
+                   var $newRow = $("#mainrow").clone().removeAttr('id');
+                   $('.pc', $newRow).val($('#idUsluga').val());
+
+                   $('#add', $newRow).addClass('remove').val('Remove').removeClass('btn-success').addClass('btn-danger');
+                   
+                   //$('#kraj,#idUsluga', $newRow).attr('disabled', true);
+                   $('#idUsluga,#kraj,#add', $newRow).removeAttr('id');
+                   $('#tablicaUsluga').append($newRow);
+               }
+          });
+
+          $('#tablicaUsluga').on('click', '.remove', function () {
+            $(this).parents('tr').remove();
+            });
+      });
+
+      function SubmitRezervacija(){
+          var isAllValid = true;
+          var list = [];
+
+          $('#tablicaUsluga tr').each(function (index, ele){
+              var rezItem = {
+                  Usluga: ($('select.pc', this).val()),
+                  Pocetak: ($('.kraj', this).val().split(' - ')[0]),
+                  Zavrsetak: ($('.kraj', this).val().split(' - ')[1])
+              }
+              list.push(rezItem);
+          });
+
+          if(list.length== 0){
+              isAllValid = false;
+          }
+
+          if(isAllValid){
+              var ovo = list.toString();
+              console.log(ovo);
+              console.log(typeof(ovo));
+              var payload = {
+                Datum: $('#datum').val().trim(),
+                Usluge: list
+            }
+
+            var things = JSON.stringify({ 'datum': payload.Datum, 'usluge': list });
+            console.log(things);
+
+            $.post(window.applicationBaseUrl + "Rezervacije/Create", {data: payload}, function(data) {
+                if('successful' in data){
+                    if(data.successful){
+                        toastr.success(data.message);
+                        window.location.href = window.applicationBaseUrl + "Rezervacije/IndexAccount";
+                    } else{
+                        toastr.error(data.message);
+                    }
+                } else{
+                    toastr.error(data);
+                }
+            })
+              .fail(function (response) {
+                  toastr.error(`${response.status} ${response.responseText}`);
+              });
+                
+            
+          }
+      }
+  </script>
+}

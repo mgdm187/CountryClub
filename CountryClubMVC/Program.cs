@@ -46,6 +46,7 @@ builder.Services.AddTransient<IClanarineRepository, ClanarineRepository>();
 builder.Services.AddTransient<IMjestaRepository, MjestaRepository>();
 builder.Services.AddTransient<IUslugeRepository, UslugeRepository>();
 builder.Services.AddTransient<IOsobeRepository, OsobeRepository>();
+builder.Services.AddTransient<IRezervacijeRepository, RezervacijeRepository>();
 
 builder.Services.Configure<SieveOptions>(builder.Configuration.GetSection("Sieve"));
 builder.Services.AddScoped<ISieveCustomFilterMethods, SieveCustomFilterMethods>();
@@ -57,6 +58,7 @@ builder.Services.AddMediatR(typeof(CheckNazivUlogeRequestHandler));
 builder.Services.AddMediatR(typeof(CheckNazivClanarineRequestHandler));
 builder.Services.AddMediatR(typeof(CheckPbrRequestHandler));
 builder.Services.AddMediatR(typeof(CheckNazivUslugeRequestHandler));
+builder.Services.AddMediatR(typeof(CheckRezervacijaRequestHandler));
 #endregion
 
 #region AutoMapper settings

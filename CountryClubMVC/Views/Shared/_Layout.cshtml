@@ -59,6 +59,12 @@
                             <a class="nav-link text-dark" asp-controller="Account" asp-action="MojRacun">Moj račun</a>
                         </li>
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Rezervacije" asp-action="Index">Popis rezervacija</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Rezervacije" asp-action="IndexAccount">Moje rezervacija</a>
+                        </li>
                        
                     </ul>
                 </div>
@@ -76,10 +82,14 @@
             &copy; 2022 - CountryClubMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script>
+    window.applicationBaseUrl = '@Url.Content("~/")';
+  </script>
     <script asp-append-version="true" src="~/lib/jquery/dist/jquery.min.js"></script>
     <script asp-append-version="true" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script asp-append-version="true" src="~/lib/toastr.js/toastr.min.js"></script>  
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <partial name="ShowMessage"/>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

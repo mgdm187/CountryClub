@@ -1,0 +1,26 @@
+﻿@model IList<DomainModel.ListaRezervacija>
+@{
+  ViewBag.Title = "Rezervacije";
+}
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Početak rezervacije</th>
+        <th scope="col">Završetak rezervacije</th>
+        <th scope="col">Cijena</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td><a asp-action="Details" asp-route-id="@item.IdRezervacija">@item.Od.ToString("dd.MM.yyyy. HH:mm")</a></td>
+          <td><a asp-action="Details" asp-route-id="@item.IdRezervacija">@item.Do.ToString("dd.MM.yyyy. HH:mm")</a></td>
+          <td>@item.Cijena</td>
+        </tr>
+      }
+      </tbody>
+  </table>
+</div>
