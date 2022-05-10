@@ -11,6 +11,7 @@ namespace DomainServices
     public interface IOsobeRepository
     {
         Task<Osoba> GetOsobaById(int idOsoba);
+        Task<IList<OsobaInfo>> GetClanoviKlubaId();
         Task<Osoba> GetOsobaByUsername(string email);
         Task<IList<OsobaList>> GetOsobe();
         Task<int> SaveOsoba(Osoba osoba);

@@ -12,10 +12,12 @@ namespace Infrastructure
     public class RezervacijeRepository : IRezervacijeRepository
     {
         private readonly CountryclubContext ctx;
+        private readonly IRacuniRepository racuniRepository;
 
-        public RezervacijeRepository(CountryclubContext ctx)
+        public RezervacijeRepository(CountryclubContext ctx, IRacuniRepository racuniRepository)
         {
             this.ctx = ctx;
+            this.racuniRepository = racuniRepository;
         }
 
         public async Task<IList<DomainModel.ListaRezervacija>> GetRezervacije(int idOsoba)
@@ -59,7 +61,8 @@ namespace Infrastructure
                 DatumPocetka = rezervacija.DatumPocetka,
                 DatumZavrsetka = rezervacija.DatumZavrsetka,
                 CijenaRezervacije = rezervacija.CijenaRezervacije,
-                IdOsoba = rezervacija.OsobaId
+                IdOsoba = rezervacija.OsobaId,
+                IdRacun = rezervacija.IdRacun.Value
             };
             ctx.Add(entity);
             await ctx.SaveChangesAsync();
@@ -124,6 +127,7 @@ namespace Infrastructure
             }
             ctx.Remove(rezervacija);
             await ctx.SaveChangesAsync();
+            await racuniRepository.UpdateCijenaRacuna(rezervacija.IdRacun.Value, (rezervacija.CijenaRezervacije * -1));
             return true;
         }
     }

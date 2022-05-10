@@ -8,7 +8,7 @@ namespace DomainModel
 {
     public class Racun
     {
-        public int IdRacun { get; set; }
+        public int? IdRacun { get; set; }
         public int IdOsoba { get; set; }
         public string Ime { get; set; }
         public string Prezime { get; set; }

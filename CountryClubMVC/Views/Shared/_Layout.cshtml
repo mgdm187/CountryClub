@@ -1,4 +1,5 @@
-﻿@using System.Security.Claims
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,63 +24,76 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Početna</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated && (User.Claims.Last().Value == "1" || User.Claims.Last().Value == "2"))
                         {
-                            @User.Identity.Name
                             <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Uloga" asp-action="Index">Uloge</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Mjesta" asp-action="Index">Mjesta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Osobe" asp-action="Index">Osobe</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Rezervacije" asp-action="Index">Popis rezervacija</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Racuni" asp-action="Index">Svi računi</a>
                         </li>
                         }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Clanarine" asp-action="Index">Članarine</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Mjesta" asp-action="Index">Mjesta</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Usluge" asp-action="Index">Usluge</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Osobe" asp-action="Index">Osobe</a>
-                        </li>
-                        <li class="nav-item">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Account" asp-action="Registracija">Registracija</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Account" asp-action="Prijava">Prijava</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Odjava">Odjava</a>
-                        </li>
+                        }
                         @if (User.Identity.IsAuthenticated)
                         {
                              <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Account" asp-action="MojRacun">Moj račun</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Odjava">Odjava</a>
+                        </li>
+                            @if (User.Claims.Last().Value == "3")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Rezervacije" asp-action="IndexAccount">Moje rezervacije</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Racuni" asp-action="IndexAccount">Moji računi</a>
+                                </li>
+                            }
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Rezervacije" asp-action="Index">Popis rezervacija</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Rezervacije" asp-action="IndexAccount">Moje rezervacija</a>
-                        </li>
+                        
+                        
                        
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container body-content">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - CountryClubMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="fixed-bottom">
+        <div class="container" style="text-align:center;">
+            &copy; 2022 - CountryClub; @@FER</a>
         </div>
     </footer>
     <script>

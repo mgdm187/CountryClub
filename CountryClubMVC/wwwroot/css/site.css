@@ -14,7 +14,17 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    padding-bottom: 20px;
+    font-family: Verdana, sans-serif;
+    background-repeat: no-repeat;
+    background-color: #f9f9f9;
+    background-image: linear-gradient(to right top, #F4F0E4 0%,#f9f9f9 49%,#f9f9f9 49%,#F1EAD8 100%);
+    background-attachment: fixed;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .validation-summary-errors {

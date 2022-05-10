@@ -37,16 +37,30 @@ namespace Infrastructure
         /// <param name="op"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        //public IQueryable<Person> NotInProjects(IQueryable<Person> source, string op, string[] values)
-        //{
-        //    if (values != null)
-        //    {
-        //        foreach (string projectId in values)
-        //        {
-        //            source = source.Where(p => !p.PersonRoles.Any(pr => pr.ProjectId == projectId));
-        //        }
-        //    }
-        //    return source;
-        //}
+        public IQueryable<Racun> SpecificPerson(IQueryable<Racun> source, string op, string[] values)
+        {
+            if (values != null)
+            {
+                foreach (string value in values)
+                {
+                    source = source.Where(p => p.IdOsoba == int.Parse(value));
+                }
+            }
+            return source;
+        }
+
+        public IQueryable<Racun> RacunPostoji(IQueryable<Racun> source, string op, string[] values)
+        {
+            if (values != null)
+            {
+                foreach (string value in values)
+                {
+                    source = source.Where(p => p.IdOsoba.ToString() == value)
+                        .Where(x => x.DatumRacuna.Month == DateTime.Now.Month)
+                        .Where(x => x.DatumRacuna.Year == DateTime.Now.Year);
+                }
+            }
+            return source;
+        }
     }
 }

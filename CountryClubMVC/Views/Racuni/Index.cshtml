@@ -1,0 +1,66 @@
+﻿@model IList<DomainModel.Racun>
+@{
+  ViewBag.Title = "Računi";
+}
+
+<div class="row">
+  <div class="col-2">
+     <form method="post" asp-action="PosaljiRacune" >
+      <button type="submit" class="btn btn-danger">Pošalji račune</button>
+     </form>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Ime</th>
+        <th scope="col">Prezime</th>
+        <th scope="col">Datum računa</th>
+        <th scope="col">Ukupno</th>
+        <th scope="col">Račun plaćen</th>
+        <th scope="col">Opcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td><a asp-action="Details" asp-route-id="@item.IdRacun">@item.Ime</a></td>
+          <td><a asp-action="Details" asp-route-id="@item.IdRacun">@item.Prezime</a></td>
+          <td>@item.DatumRacuna.ToString("dd.MM.yyyy.")</td>
+          <td>@item.CijenaUkupno kn</td>
+                    @if(item.Placeno == null || item.Placeno == false)
+                    {
+                        <td>Ne</td>
+                        <td>
+                            @if(item.DatumRacuna.AddMonths(2).Date < DateTime.Now.Date)
+                            {
+                                <form method="post" asp-action="BlokirajClana"
+                                asp-controller="Osobe"
+                                asp-route-personId="@item.IdOsoba" >
+                                <button type="submit" class="btn btn-danger">Suspendiraj člana <i class="fas fa-trash-alt ms-1"></i></button>
+                            </form>
+                            }
+                            @if(item.DatumRacuna.Month == (DateTime.Now.Month+1) && item.DatumRacuna.Year == DateTime.Now.Year)
+                            {
+                                <form method="post" asp-action="RacunPlacen"
+                                asp-controller="Racuni"
+                                asp-route-idRacun="@item.IdRacun" >
+                                <button type="submit" class="btn btn-success">Račun plaćen</button>
+                            </form>
+                            }
+                            
+                        </td>
+                    }
+                    else
+                    {
+                        <td>Da</td>
+                        <td></td>
+                    }
+        </tr>
+      }
+      </tbody>
+  </table>
+</div>

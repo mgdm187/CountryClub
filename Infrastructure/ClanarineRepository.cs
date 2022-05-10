@@ -16,6 +16,26 @@ namespace Infrastructure
             this.ctx = ctx;
         }
 
+        public async Task<DomainModel.Clanarina> GetClanarinaByDatum(DateTime datum)
+        {
+            int age = 0;
+            age = DateTime.Now.Subtract(datum).Days;
+            age = age / 365;
+            var data = await ctx.Clanarina
+                            .Where(x => x.OdGodine <= age)
+                            .Where(x => x.DoGodine > age)
+                            .Select(c => new DomainModel.Clanarina
+                            {
+                                IdClanarina = c.IdClanarina,
+                                NazivClanarina = c.NazivClanarina,
+                                CijenaClanarina = c.CijenaClanarina,
+                                OdGodine = c.OdGodine,
+                                DoGodine = c.DoGodine
+                            })
+                            .FirstOrDefaultAsync();
+            return data;
+        }
+
         public async Task<IList<DomainModel.Clanarina>> GetClanarine()
         {
             var data = await ctx.Clanarina

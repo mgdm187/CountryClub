@@ -221,5 +221,23 @@ namespace Infrastructure
             DomainModel.Osoba osoba = await GetOsobaById(idOsoba);
             await UpdateStatus(idOsoba, 2);
         }
+
+        //GET metoda za dohvaćanje id članova kluba
+        public async Task<IList<DomainModel.OsobaInfo>> GetClanoviKlubaId()
+        {
+            var clanoviKluba = await ctx.Osoba
+                                .Where(x => x.IdUloga == 3)
+                                .Where(x => x.Status == 1)
+                                .Select(x => new DomainModel.OsobaInfo
+                                {
+                                    IdOsoba = x.IdOsoba,
+                                    Ime = x.Ime,
+                                    Prezime = x.Prezime,
+                                    DatumRodenja = x.DatumRodenja
+                                })
+                                .ToListAsync();
+
+            return clanoviKluba;
+        }
     }
 }

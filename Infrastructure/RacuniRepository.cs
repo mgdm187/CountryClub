@@ -1,6 +1,8 @@
 ﻿using DomainServices;
 using Infrastructure.EFModel;
 using Microsoft.EntityFrameworkCore;
+using Sieve.Models;
+using Sieve.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,18 @@ namespace Infrastructure
     public class RacuniRepository : IRacuniRepository
     {
         private readonly CountryclubContext ctx;
+        private readonly ISieveProcessor sieveProcessor;
+        private readonly IClanarineRepository clanarineRepository;
+        private readonly IOsobeRepository osobeRepository;
 
-        public RacuniRepository(CountryclubContext ctx)
+        public RacuniRepository(CountryclubContext ctx, ISieveProcessor sieveProcessor,
+            IClanarineRepository clanarineRepository,
+            IOsobeRepository osobeRepository)
         {
             this.ctx = ctx;
+            this.sieveProcessor = sieveProcessor;
+            this.clanarineRepository = clanarineRepository;
+            this.osobeRepository = osobeRepository;
         }
 
         public async Task<DomainModel.Racun> GetRacun(int idRacun)
@@ -36,7 +46,7 @@ namespace Infrastructure
                                 })
                                 .FirstOrDefaultAsync();
             if(data != null)
-            {
+            { 
                 var rezervacije = await ctx.Rezervacija
                                     .Where(x => x.IdRacun == data.IdRacun)
                                     .Select(u => new DomainModel.ListaRezervacija
@@ -54,16 +64,47 @@ namespace Infrastructure
             return data;
         }
 
-        public async Task<IList<DomainModel.Racun>> GetRacuni(int idOsoba)
+        public async Task<DomainModel.Racun> GetTekuciRacun(SieveModel criteria)
         {
-            var data = await ctx.Racun
-                                .Where(x => x.IdOsoba == idOsoba)
+            var query = ctx.Racun.AsNoTracking();
+            if (criteria != null)
+            {
+                query = sieveProcessor.Apply(criteria, query);
+            }
+            var data = await query
+                                .Select(u => new DomainModel.Racun
+                                {
+                                    IdRacun = u.IdRacun,
+                                    Ime = u.IdOsobaNavigation.Ime,
+                                    Prezime = u.IdOsobaNavigation.Prezime,
+                                    IdClanarina = u.IdClanarina,
+                                    NazivClanarina = u.IdClanarinaNavigation.NazivClanarina,
+                                    CijenaClanarina = u.IdClanarinaNavigation.CijenaClanarina,
+                                    CijenaUkupno = u.Ukupno,
+                                    Placeno = u.RacunPlacen,
+                                    IdOsoba = u.IdOsoba,
+                                    DatumRacuna = u.DatumRacuna,
+                                })
+                                .FirstOrDefaultAsync();
+
+            return data;
+        }
+
+        public async Task<IList<DomainModel.Racun>> GetRacuni(SieveModel criteria)
+        {
+            var query = ctx.Racun.AsNoTracking();
+            if (criteria != null)
+            {
+                query = sieveProcessor.Apply(criteria, query);
+            }
+            var data = await query
                                 .Select(u => new DomainModel.Racun
                                 {
                                     IdRacun = u.IdRacun,
                                     Ime = u.IdOsobaNavigation.Ime,
                                     Prezime = u.IdOsobaNavigation.Prezime,
                                     CijenaUkupno = u.Ukupno,
+                                    Placeno = u.RacunPlacen,
                                     IdOsoba = u.IdOsoba,
                                     DatumRacuna = u.DatumRacuna,
                                 })
@@ -72,31 +113,91 @@ namespace Infrastructure
             return data;
         }
 
-        public async Task<IList<DomainModel.Racun>> GetRacuni()
+        public async Task<List<int>> GetClanoviSRacunima()
         {
-            var data = await ctx.Racun
-                                .Select(u => new DomainModel.Racun
-                                {
-                                    IdRacun = u.IdRacun,
-                                    Ime = u.IdOsobaNavigation.Ime,
-                                    Prezime = u.IdOsobaNavigation.Prezime,
-                                    CijenaUkupno = u.Ukupno,
-                                    IdOsoba = u.IdOsoba,
-                                    DatumRacuna = u.DatumRacuna,
-                                })
-                                .ToListAsync();
+            var clanoviBezRacuna = await ctx.Racun
+                                        .Where(x => x.DatumRacuna.Month == DateTime.Now.Month)
+                                        .Where(x => x.DatumRacuna.Year == DateTime.Now.Year)
+                                        .Select(x => x.IdOsoba)
+                                        .ToListAsync();
 
-            return data;
+            return clanoviBezRacuna;
         }
 
         public async Task<int> SaveRacun(DomainModel.Racun racun)
         {
+            if (racun.IdRacun == null)
+            {
+                return await AddRacun(racun);
+            }
+            else
+            {
+                await UpdateRacun(racun);
+                return racun.IdRacun.Value;
+            }
+        }
+
+        public async Task UpdateCijenaRacuna(int idRacun, decimal cijena)
+        {
+            var query = ctx.Racun.AsQueryable();
+            var entity = await query.FirstOrDefaultAsync(p => p.IdRacun == idRacun);
+            if (entity != null)
+            {
+                entity.Ukupno += cijena;
+                await ctx.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateRacun(DomainModel.Racun racun)
+        {
+            decimal cijena = 0.00M;
+            foreach (var item in racun.Rezervacije)
+            {
+                racun.CijenaUkupno += item.Cijena;
+            }
+            var query = ctx.Racun.AsQueryable();
+            var entity = await query.FirstOrDefaultAsync(p => p.IdRacun == racun.IdRacun);
+            if (entity != null)
+            {
+                entity.RacunPlacen = racun.Placeno;
+                entity.Ukupno = cijena;
+                await ctx.SaveChangesAsync();
+            }
+        }
+
+        public async Task SaveAll(List<DomainModel.Racun> racuni)
+        {
+            List<Racun> racuniList = new List<Racun>();
+            foreach(var r in racuni)
+            {
+                Racun racun = new Racun
+                {
+                    IdClanarina = (int)r.IdClanarina,
+                    IdOsoba = r.IdOsoba,
+                    DatumRacuna = r.DatumRacuna,
+                    Ukupno = r.CijenaUkupno,
+                    RacunPlacen = r.Placeno
+                };
+                racuniList.Add(racun);
+            }
+            ctx.AddRange(racuniList);
+            await ctx.SaveChangesAsync();
+        }
+
+        public async Task<int> AddRacun(DomainModel.Racun racun)
+        {
+            decimal cijena = 0.00M;
+            foreach(var item in racun.Rezervacije)
+            {
+                cijena += item.Cijena;
+            }
+            cijena += racun.CijenaClanarina.Value;
             var entity = new EFModel.Racun
             {
                 DatumRacuna = DateTime.Now.Date,
                 IdClanarina = racun.IdClanarina.Value,
-                RacunPlacen = null,
-                Ukupno = racun.CijenaUkupno,
+                RacunPlacen = false,
+                Ukupno = cijena,
                 IdOsoba = racun.IdOsoba
             };
             ctx.Add(entity);

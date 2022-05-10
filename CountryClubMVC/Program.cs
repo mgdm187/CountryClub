@@ -29,13 +29,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy =>
-        policy.RequireClaim("Role", "admin"));
+        policy.RequireClaim("Role", 1.ToString()));
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Zaposlenik", policy =>
+        policy.RequireClaim("Role", "2"));
 });
 
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("ClanKluba", policy =>
-        policy.RequireClaim("Role", "clan"));
+        policy.RequireClaim("Role", "3"));
 });
 
 
@@ -47,6 +53,7 @@ builder.Services.AddTransient<IMjestaRepository, MjestaRepository>();
 builder.Services.AddTransient<IUslugeRepository, UslugeRepository>();
 builder.Services.AddTransient<IOsobeRepository, OsobeRepository>();
 builder.Services.AddTransient<IRezervacijeRepository, RezervacijeRepository>();
+builder.Services.AddTransient<IRacuniRepository, RacuniRepository>();
 
 builder.Services.Configure<SieveOptions>(builder.Configuration.GetSection("Sieve"));
 builder.Services.AddScoped<ISieveCustomFilterMethods, SieveCustomFilterMethods>();

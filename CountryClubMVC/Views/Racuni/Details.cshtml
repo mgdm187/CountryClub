@@ -1,0 +1,61 @@
+﻿@model DomainModel.Racun
+@{
+  ViewBag.Title = "Račun " + Model.IdRacun;
+}
+
+<h5>Datum računa: @Model.DatumRacuna.ToString("dd.MM.yyyy.")</h5>
+<h5>Ime: @Model.Ime @Model.Prezime</h5>
+@if(Model.Placeno == null || Model.Placeno == false)
+{
+    <p><strong>Račun plaćen: </strong>Ne</p>
+}
+else
+{
+    <p><strong>Račun plaćen: </strong>Da</p>
+}
+
+<p><strong>Cijena: </strong> @Model.CijenaUkupno</p>
+
+<br />
+<p>Stavke računa:</p>
+
+<hr />
+  <div class="table-responsive pt-2">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Usluga</th>
+        <th scope="col">Cijena</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+            Članarina:@Model.NazivClanarina
+          </td>
+          <td>
+            @Model.CijenaClanarina kn
+          </td>
+        </tr>
+            @if(Model.Rezervacije.Count > 0)
+            {
+                foreach (var item in Model.Rezervacije)
+                {
+                    <tr>
+                        <td>
+                            Rezervacija broj: @item.IdRezervacija
+                        </td>
+                        <td>
+                            @item.Cijena kn
+                        </td>
+                    </tr>
+                    }
+            }
+      </tbody>
+      <tfoot>
+          <tr>
+              <th style="text-align:right;">Ukupno: @Model.CijenaUkupno kn</th>
+          </tr>
+      </tfoot>
+  </table>
+</div>

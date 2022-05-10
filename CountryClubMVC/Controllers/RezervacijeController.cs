@@ -5,9 +5,11 @@ using DomainModel;
 using DomainModel.Validation;
 using DomainServices;
 using FluentValidation;
+using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Sieve.Models;
 
 namespace CountryClubMVC.Controllers
 {
@@ -15,14 +17,17 @@ namespace CountryClubMVC.Controllers
     {
         private readonly IOsobeRepository osobeRepository;
         private readonly IUslugeRepository uslugeRepository;
-        //private readonly IRacuniRepository racuniRepository;
+        private readonly IRacuniRepository racuniRepository;
         private readonly IMapper mapper;
         private readonly IEnumerable<IValidator<DomainModel.Rezervacija>> validators;
+        private readonly IClanarineRepository clanarineRepository;
         private readonly IRezervacijeRepository rezervacijeRepository;
         public RezervacijeController(IOsobeRepository osobeRepository,
                                 IRezervacijeRepository rezervacijeRepository,
                                 IMapper mapper,
                                 IEnumerable<IValidator<DomainModel.Rezervacija>> validators,
+                                IClanarineRepository clanarineRepository,
+                                IRacuniRepository racuniRepository,
                                IUslugeRepository uslugeRepository)
         {
             this.osobeRepository = osobeRepository;
@@ -30,7 +35,8 @@ namespace CountryClubMVC.Controllers
             this.mapper = mapper;
             this.validators = validators;
             this.rezervacijeRepository = rezervacijeRepository;
-            //this.racuniRepository = racuniRepository;
+            this.racuniRepository = racuniRepository;
+            this.clanarineRepository = clanarineRepository;
         }
 
         //[Authorize("Admin")]
@@ -56,16 +62,6 @@ namespace CountryClubMVC.Controllers
             }
             else
             {
-                //var uloge = await ulogeRepository.GetUloge();
-                //ViewBag.Uloge = new SelectList(uloge,
-                //  dataValueField: nameof(DomainModel.Uloga.IdUloga),
-                //  dataTextField: nameof(DomainModel.Uloga.NazivUloga));
-                //var clanarine = await clanarineRepository.GetClanarine();
-                //ViewBag.Clanarine = new SelectList(clanarine,
-                //  dataValueField: nameof(DomainModel.Clanarina.IdClanarina),
-                //  dataTextField: nameof(DomainModel.Clanarina.NazivClanarina));
-
-
                 return View(rezervacija);
             }
         }
@@ -91,7 +87,12 @@ namespace CountryClubMVC.Controllers
                 var minPocetak = datum.AddDays(1);
                 var maxZavrsetak = datum;
                 decimal cijenaRezervacije = 0.00M;
-                foreach(var usluga in data.Usluge)
+                var criteria = new SieveModel
+                {
+                    Filters = $"{nameof(SieveCustomFilterMethods.RacunPostoji)}=={osoba.IdOsoba.Value}"
+                };
+                var racun = await racuniRepository.GetTekuciRacun(criteria);
+                foreach (var usluga in data.Usluge)
                 {
                     var uslugaId = Convert.ToInt32(usluga.Usluga);
                     var poc = Convert.ToDateTime(datum.Date.ToString().Split(' ')[0] + Convert.ToDateTime(usluga.Pocetak).TimeOfDay.ToString());
@@ -122,10 +123,28 @@ namespace CountryClubMVC.Controllers
                     DatumZavrsetka = maxZavrsetak,
                     Usluge = usluge,
                     CijenaRezervacije = cijenaRezervacije,
-                    OsobaId = osoba.IdOsoba.Value
+                    OsobaId = osoba.IdOsoba.Value,
+                    IdRacun = racun.IdRacun.Value
                 };
                 await model.Validate(validators);
                 int rezervacijaId = await rezervacijeRepository.SaveRezervacija(model);
+                if(racun != null)
+                {
+                    await racuniRepository.UpdateCijenaRacuna(racun.IdRacun.Value, model.CijenaRezervacije);
+                }
+                else
+                {
+                    List<ListaRezervacija> listaRezervacija = new List<ListaRezervacija>();
+                    var rezervacija = mapper.Map<DomainModel.ListaRezervacija>(model);
+                    listaRezervacija.Add(rezervacija);
+                    racun.Rezervacije = listaRezervacija;
+                    racun.IdOsoba = osoba.IdOsoba.Value;
+                    var clanarina = await clanarineRepository.GetClanarinaByDatum(osoba.DatumRodenja);
+                    racun.IdClanarina = clanarina.IdClanarina.Value;
+                    racun.NazivClanarina = clanarina.NazivClanarina;
+                    racun.CijenaClanarina = clanarina.CijenaClanarina;
+                    int id = await racuniRepository.SaveRacun(racun);
+                }
                 TempData.Put(Constants.ActionStatus, new ActionStatus(true, $"Rezervacija kreirana"));
                     //return RedirectToAction(nameof(Details), new { id = rezervacijaId });
                     return Json(new ActionStatus(true, "Rezervacija kreirana"));

@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace DomainModel
 {
-    public record OsobaInfo(int IdOsoba, string Ime, string Prezime)
+    public class OsobaInfo
     {
-        public string PunoImeOsobe => $"{Ime}, {Prezime}";
+        public int IdOsoba { get; set; }
+        public string Ime { get; set; }
+        public string Prezime { get; set; }
+        public int IdUloga { get; set; }
+        public DateTime DatumRodenja { get; set; }
     }
 }

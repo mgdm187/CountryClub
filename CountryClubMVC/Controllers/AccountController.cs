@@ -7,6 +7,7 @@ using DomainServices;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,6 +19,7 @@ namespace CountryClubMVC.Controllers
     {
         private readonly IOsobeRepository osobeRepository;
         private readonly IUlogeRepository ulogeRepository;
+        private readonly IAuthorizationService AuthorizationService;
         private readonly IMjestaRepository mjestaRepository;
         private readonly IMapper mapper;
         private readonly IEnumerable<IValidator<DomainModel.Osoba>> validators;
@@ -25,12 +27,14 @@ namespace CountryClubMVC.Controllers
                                IEnumerable<IValidator<DomainModel.Osoba>> validators,
                                IUlogeRepository ulogeRepository,
                                IMjestaRepository mjestaRepository,
+                               IAuthorizationService authorizationService,
                                IMapper mapper)
         {
             this.osobeRepository = osobeRepository;
             this.validators = validators;
             this.ulogeRepository = ulogeRepository;
             this.mjestaRepository = mjestaRepository;
+            this.AuthorizationService = authorizationService;
             this.mapper = mapper;
         }
 
@@ -70,6 +74,7 @@ namespace CountryClubMVC.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError(string.Empty, ex.CompleteExceptionMessage());
+                    TempData.Put(Constants.ActionStatus, new ActionStatus(false, ex.CompleteExceptionMessage()));
                     return View(model);
                 }
             }
@@ -98,15 +103,10 @@ namespace CountryClubMVC.Controllers
             {
                 try
                 {
-                    var nazivUloge = osoba.nazivUloga;
-                    if(nazivUloge == "član")
-                    {
-                        nazivUloge = "clan";
-                    }
                     var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, osoba.Username),
-                            new Claim(ClaimTypes.Role, nazivUloge)
+                            new Claim(ClaimTypes.Role, osoba.IdUloga.ToString())
                         };
 
                     var claimsIdentity = new ClaimsIdentity(
@@ -114,6 +114,9 @@ namespace CountryClubMVC.Controllers
 
                     var authProperties = new AuthenticationProperties
                     {
+                        ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                        IsPersistent = false,
+                        AllowRefresh = false
                         //AllowRefresh = <bool>,
                         // Refreshing the authentication session should be allowed.
 
@@ -135,22 +138,26 @@ namespace CountryClubMVC.Controllers
                         // The full path or absolute URI to be used as an http 
                         // redirect response value.
                     };
+                    var userPrincipal = new ClaimsPrincipal(claimsIdentity);
 
                     await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity),
+                        userPrincipal,
                         authProperties);
 
+                    TempData.Put(Constants.ActionStatus, new ActionStatus(true, "Uspješno ste se prijavili."));
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError(string.Empty, ex.CompleteExceptionMessage());
+                    TempData.Put(Constants.ActionStatus, new ActionStatus(false, ex.CompleteExceptionMessage()));
                     return View(model);
                 }
             }
             else
             {
+                TempData.Put(Constants.ActionStatus, new ActionStatus(false, "Pogrešna lozinka ili korisničko ime."));
                 return View(model);
             }
         }
