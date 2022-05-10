@@ -56,8 +56,9 @@
   </div>
 </form>
   <div>
-    <button type="submit" class="btn btn-sm btn-primary" onclick="SubmitRezervacija();">Save <i class="fas fa-save ms-1"></i></button>
-  </div>
+    <button type="submit" class="btn btn-sm btn-success" onclick="SubmitRezervacija();">Spremi <i class="fas fa-save ms-1"></i></button>
+    <button type="button" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("IndexAccount","Rezervacije")';">Odustani <i class="fas fa-cancel ms-1"></i></button>
+</div>
 
 @section Scripts {
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -146,7 +147,7 @@
                    var $newRow = $("#mainrow").clone().removeAttr('id');
                    $('.pc', $newRow).val($('#idUsluga').val());
 
-                   $('#add', $newRow).addClass('remove').val('Remove').removeClass('btn-success').addClass('btn-danger');
+                   $('#add', $newRow).addClass('remove').val('Izbriši').removeClass('btn-success').addClass('btn-danger myBtn').css("background-color", "darkred");
                    
                    //$('#kraj,#idUsluga', $newRow).attr('disabled', true);
                    $('#idUsluga,#kraj,#add', $newRow).removeAttr('id');

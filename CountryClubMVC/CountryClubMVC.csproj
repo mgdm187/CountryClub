@@ -22,7 +22,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Imports\" />
+    <Folder Include="wwwroot\Imports\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Imports\golfteren.jpg" />
+    <None Include="wwwroot\Imports\spa.jpg" />
+    <None Include="wwwroot\Imports\tenis.jpg" />
   </ItemGroup>
 
 </Project>

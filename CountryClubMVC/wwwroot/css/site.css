@@ -13,6 +13,12 @@ html {
   min-height: 100%;
 }
 
+img{
+    height: 300px !important;
+
+    width: 400px !important;
+}
+
 body {
     padding-bottom: 20px;
     font-family: Verdana, sans-serif;
@@ -38,4 +44,9 @@ body {
 
 .input-validation-error {
     border-color: red;
+}
+
+.myBtn{
+    color:white;
+    background-color: darkred;
 }

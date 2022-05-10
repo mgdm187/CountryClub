@@ -2,6 +2,9 @@
 @{
   ViewBag.Title = "Osobe";
 }
+<p>
+  <a asp-action="Create" class="btn btn-sm btn-primary">Dodaj novu osobu</a>
+</p>
 
 <div class="table-responsive">
   <table class="table">
@@ -23,23 +26,19 @@
           <td>@item.Status.ToString()</td>
           <td>@item.Email</td>
           <td>
-            <form method="post" asp-action="Delete" asp-route-id="@item.IdOsoba">
-                <button type="submit" class="btn btn-danger confirm-delete">Delete <i class="fas fa-trash-alt ms-1"></i></button>
-            </form>
-            @*<form method="post" asp-action="BlokirajClana" 
-                                asp-route-osobaId="@item.IdOsoba" 
-                                asp-route-status="3">
-                <button type="submit" class="btn btn-danger">Blokirati člana <i class="fas fa-trash-alt ms-1"></i></button>
-            </form>*@
+                        @if(User.Claims.Last().Value == "1" || User.Claims.Last().Value == "2")
+                        {
+                            <form method="post" asp-action="Delete" asp-route-id="@item.IdOsoba">
+                                <button type="submit" class="btn btn-danger confirm-delete">Delete <i class="fas fa-trash-alt ms-1"></i></button>
+                            </form>
+                        }   
           </td>
         </tr>
       }
       </tbody>
   </table>
 </div>
-<p>
-  <a asp-action="Create" class="btn btn-sm btn-primary">Dodaj novu osobu</a>
-</p>
+
 
 @*@section Scripts {
   <script>

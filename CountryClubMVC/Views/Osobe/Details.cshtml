@@ -16,9 +16,13 @@
   <div class="col-2">
     <a asp-action="Edit" asp-route-id="@Model.IdOsoba" class="btn btn-dark">Edit <i class="fas fa-edit ms-1"></i></a>
   </div>
-  <div class="col-2">
+    @if(User.Claims.Last().Value == "1" || User.Claims.Last().Value == "2")
+    {
+        <div class="col-2">
      <form method="post" asp-action="Delete" asp-route-id="@Model.IdOsoba">
-      <button type="submit" class="btn btn-danger">Delete <i class="fas fa-trash-alt ms-1"></i></button>
+      <button type="submit" class="btn btn-danger">Izbriši <i class="fas fa-trash-alt ms-1"></i></button>
   </form>
   </div>
+    }
+    
 </div>

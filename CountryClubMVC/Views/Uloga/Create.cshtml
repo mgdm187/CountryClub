@@ -12,7 +12,9 @@
     <label asp-for="NazivUloga"></label>
   </div>
   <div>
-    <button type="submit" class="btn btn-sm btn-primary">Save <i class="fas fa-save ms-1"></i></button>
+    <button type="submit" class="btn btn-sm btn-primary">Spremi <i class="fas fa-save ms-1"></i></button>
+    <button type="button" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("Index","Uloga")';">Odustani <i class="fas fa-cancel ms-1"></i></button>
+
   </div>
 </form>
 

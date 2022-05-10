@@ -2,64 +2,146 @@
 @{
   ViewBag.Title = "Registracija";
 }
-
-<h5>Registracija</h5>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <h5>Registracija</h5>
+    </div>
+    <div class="col-4"></div>
+</div>
 
 <form method="post">
   <div asp-validation-summary="All"></div>
-  <div class="form-floating mb-3">
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="Ime" class="form-control">
     <label asp-for="Ime"></label>
   </div>
-  <div class="form-floating mb-3">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="Prezime" class="form-control">
     <label asp-for="Prezime"></label>
   </div>
-  <div class="form-floating mb-3">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="DatumRodenja" class="form-control">
     <label asp-for="DatumRodenja"></label>
   </div>
-  <div class="form-floating mb-3">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="Email" class="form-control">
     <label asp-for="Email"></label>
   </div>
-  <div class="form-floating mb-3">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="Username" class="form-control">
     <label asp-for="Username"></label>
   </div>
-  <div class="form-floating mb-3">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="Telefon" class="form-control">
     <label asp-for="Telefon"></label>
   </div>
-  <div class="form-floating mb-3">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="Oib" class="form-control">
     <label asp-for="Oib"></label>
   </div>
-  <div class="form-floating mb-3">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="Adresa" class="form-control">
     <label asp-for="Adresa"></label>
   </div>
-  <div class="form-floating mb-3">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="Pbr" class="form-control">
     <label asp-for="Pbr"></label>
   </div>
-  <div class="form-floating mb-3">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
     <input asp-for="Mjesto" class="form-control">
     <label asp-for="Mjesto"></label>
   </div>
-      <div class="form-floating mb-3">
-    <input asp-for="Lozinka" class="form-control">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
+    <input asp-for="Lozinka" type="password" class="form-control">
     <label asp-for="Lozinka"></label>
   </div>
-      <div class="form-floating mb-3">
-    <input asp-for="PonoviLozinku" class="form-control">
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class="col-4"></div>
+  <div class="col-4">
+  <div class="form-floating mb-3 ">
+    <input asp-for="PonoviLozinku" type="password" class="form-control">
     <label asp-for="PonoviLozinku"></label>
   </div>
-  <div>
-    <button type="submit" class="btn btn-sm btn-primary">Registriraj se <i class="fas fa-save ms-1"></i></button>
+  </div>
+  <div class="col-4"></div>
+  </div>
+  <div class="row">
+      <div class=col-4></div>
+      <div class=col-4>
+            <button type="submit" class="btn btn-md btn-success">Registriraj se <i class="fas fa-save ms-1"></i></button>
+      </div>
+      <div class=col-4></div>
   </div>
 </form>
 
 @section Scripts{
   <partial name="_ValidationScriptsPartial"/>
+ 
 }

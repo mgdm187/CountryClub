@@ -34,14 +34,12 @@ namespace CountryClubMVC.Controllers
             this.clanarineRepository = clanarineRepository;
         }
 
-        [Authorize("Admin")]
         public async Task<IActionResult> Index()
         {
             var data = await osobeRepository.GetOsobe();
             return View(data);
         }
 
-        [Authorize("Admin")]
         public async Task<IActionResult> Details(int id)
         {
             var osoba = await osobeRepository.GetOsobaById(id);
@@ -65,14 +63,12 @@ namespace CountryClubMVC.Controllers
             }
         }
 
-        [Authorize("Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(OsobaViewModel model)
         {
@@ -148,7 +144,6 @@ namespace CountryClubMVC.Controllers
             }
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         public async Task<JsonResult> BlokirajClana(int personId)
         {

@@ -8,8 +8,8 @@
 <p><strong>Datum kreiranja: </strong> @Model.DatumKreiranja</p>
 <p><strong>Cijena: </strong> @Model.CijenaRezervacije</p>
 
-@*@if(Model.DatumKreiranja.AddDays(5) < DateTime.Now.Date)
-{*@
+@if(User.Claims.Last().Value == "3")
+{
 <div class="row">
   <div class="col-2">
      <form method="post" asp-action="Delete" asp-route-id="@Model.IdRezervacija">
@@ -17,7 +17,7 @@
      </form>
   </div>
 </div>
-@*}*@
+}
 
 <br>
 @if(Model.Usluge.Count > 0)

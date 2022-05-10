@@ -7,16 +7,17 @@
 
 <form method="post">
   <div asp-validation-summary="All"></div>
-  <div class="form-floating mb-3">
+  <div class="form-floating mb-3 col-4">
     <input asp-for="NazivMjesto" class="form-control">
     <label asp-for="NazivMjesto"></label>
   </div>
-  <div class="form-floating mb-3">
+  <div class="form-floating mb-3 col-4">
     <input asp-for="Pbr" class="form-control">
     <label asp-for="Pbr"></label>
   </div>
   <div>
-    <button type="submit" class="btn btn-sm btn-primary">Save <i class="fas fa-save ms-1"></i></button>
+    <button type="submit" class="btn btn-sm btn-primary">Spremi <i class="fas fa-save ms-1"></i></button>
+    <button type="button" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("Index","Mjesta")';">Odustani <i class="fas fa-cancel ms-1"></i></button>
   </div>
 </form>
 
