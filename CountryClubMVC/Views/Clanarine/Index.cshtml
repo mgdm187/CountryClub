@@ -2,39 +2,64 @@
 @{
   ViewBag.Title = "Članarine";
 }
-@if(User.Claims.Last().Value == "1" || User.Claims.Last().Value == "2")
+@if(User.Claims.Count() > 0)
 {
-    <p>
-  <a asp-action="Create" class="btn btn-sm btn-primary">Dodaj novu članarinu</a>
-    </p>
-    <br />
-    <div class="table-responsive">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Članarina</th>
-        <th scope="col">Cijena</th>
-        <th scope="col">Od</th>
-        <th scope="col">Do</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var item in Model)
-      {
-        <tr>
-          <td>@item.NazivClanarina</td>
-          <td>@item.CijenaClanarina</td>
-          <td>@item.OdGodine</td>
-          <td>@item.DoGodine</td>
-          <td><a asp-action="Edit" asp-route-id="@item.IdClanarina" class="btn btn-dark">Uredi <i class="fas fa-edit ms-1"></i></a></td>
+    @if(User.Claims.Last().Value == "1" || User.Claims.Last().Value == "2")
+    {
+        <p>
+      <a asp-action="Create" class="btn btn-sm btn-primary">Dodaj novu članarinu</a>
+        </p>
+        <br />
+        <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Članarina</th>
+            <th scope="col">Cijena</th>
+            <th scope="col">Od</th>
+            <th scope="col">Do</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var item in Model)
+          {
+            <tr>
+              <td>@item.NazivClanarina</td>
+              <td>@item.CijenaClanarina</td>
+              <td>@item.OdGodine</td>
+              <td>@item.DoGodine</td>
+              <td><a asp-action="Edit" asp-route-id="@item.IdClanarina" class="btn btn-dark">Uredi <i class="fas fa-edit ms-1"></i></a></td>
           
-        </tr>
-      }
-      </tbody>
-  </table>
-</div>
+            </tr>
+          }
+          </tbody>
+      </table>
+    </div>
 
+    }
+    else
+    {
+         <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Članarina</th>
+            <th scope="col">Cijena</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var item in Model)
+          {
+            <tr>
+              <td>@item.NazivClanarina</td>
+              <td>@item.CijenaClanarina</td>
+            </tr>
+          }
+          </tbody>
+      </table>
+    </div>
+    }
 }
 else
 {
