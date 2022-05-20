@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModel", "DomainModel\DomainModel.csproj", "{14834D39-37F9-487B-BB5D-08C0F95EC28D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModel", "DomainModel\DomainModel.csproj", "{14834D39-37F9-487B-BB5D-08C0F95EC28D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{36A61A32-DABB-4F71-88B1-DCA23B65CDC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{36A61A32-DABB-4F71-88B1-DCA23B65CDC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModel.Validation", "DomainModel.Validators\DomainModel.Validation.csproj", "{8C009D4B-AE21-4836-9160-03845585DBC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModel.Validation", "DomainModel.Validators\DomainModel.Validation.csproj", "{8C009D4B-AE21-4836-9160-03845585DBC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainServices", "DomainServices\DomainServices.csproj", "{54ED2C7B-6E50-485F-9848-227D94555A90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainServices", "DomainServices\DomainServices.csproj", "{54ED2C7B-6E50-485F-9848-227D94555A90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryClubMVC", "CountryClubMVC\CountryClubMVC.csproj", "{3A0B6676-D6C8-40CD-A531-19B030075570}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryClubMVC", "CountryClubMVC\CountryClubMVC.csproj", "{3A0B6676-D6C8-40CD-A531-19B030075570}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryClub.IntegrationTests", "CountryClub.IntegrationTests\CountryClub.IntegrationTests.csproj", "{F6D28FB6-D108-4377-A885-731E483F9A48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{3A0B6676-D6C8-40CD-A531-19B030075570}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A0B6676-D6C8-40CD-A531-19B030075570}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A0B6676-D6C8-40CD-A531-19B030075570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D28FB6-D108-4377-A885-731E483F9A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D28FB6-D108-4377-A885-731E483F9A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D28FB6-D108-4377-A885-731E483F9A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D28FB6-D108-4377-A885-731E483F9A48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
