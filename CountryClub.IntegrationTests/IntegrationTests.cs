@@ -1,16 +1,18 @@
-using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Xunit;
-using System.Net;
-using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Net.Http.Json;
+using Newtonsoft.Json;
 
 namespace CountryClub.IntegrationTests
 {
-    public class IntegrationTests
+    public abstract class IntegrationTests
     {
-        private readonly HttpClient _client;
+        protected readonly HttpClient _client;
 
         public IntegrationTests()
         {
@@ -18,14 +20,30 @@ namespace CountryClub.IntegrationTests
             _client = appFactory.CreateClient();
         }
 
-        [Fact]
-        public async Task Get_Default_Index()
+        protected async Task AuthenticateAsync()
         {
-            var response = await _client.GetAsync("");
-            /*var stringResult = await response.Content.ReadAsStringAsync();
+            _client.DefaultRequestHeaders.Authorization = 
+                new AuthenticationHeaderValue("bearer", await GetJwtAsync());
+        }
 
-            Assert.Equal("kek!", stringResult);*/
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        private async Task<string> GetJwtAsync()
+        {
+            var _content = JsonConvert.SerializeObject(
+                new DomainModel.AccountInfo
+                {
+                    IdOsoba = 0,
+                    Username = "mariohorvat",
+                    Lozinka = "admin!"
+                });
+
+            var buffer = System.Text.Encoding.UTF8.GetBytes(_content);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await _client.PostAsync("/Account/Prijava", byteContent);
+
+            var registrationResponse = response.Content;
+            return null;
         }
     }
 }

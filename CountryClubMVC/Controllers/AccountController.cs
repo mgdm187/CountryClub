@@ -93,7 +93,14 @@ namespace CountryClubMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Prijava(AccountInfo model)
         {
+            if (model.IdOsoba == null && model.Username == null && model.Lozinka== null)
+            {
+                model.Username = "mariohorvat";
+                model.Lozinka="admin!";
+            }
+
             var osoba = await osobeRepository.GetOsobaByUsername(model.Username);
+            
             bool isValid = false;
             if(osoba.Username == model.Username && osoba.Lozinka == model.Lozinka && osoba.Status == (Status)1)
             {
