@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -29,6 +29,7 @@
     <None Include="wwwroot\Imports\golfteren.jpg" />
     <None Include="wwwroot\Imports\spa.jpg" />
     <None Include="wwwroot\Imports\tenis.jpg" />
+    <InternalsVisibleTo Include="CountryClub.IntegrationTests"/>
   </ItemGroup>
 
 </Project>
