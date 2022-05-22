@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CountryClub.IntegrationTests
 {
-    public class GetControllerTests : IntegrationTests
+    public class ControllerTests : IntegrationTests
     {
         [Fact]
         public async Task Get_Default_Index()

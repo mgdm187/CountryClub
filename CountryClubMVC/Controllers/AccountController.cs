@@ -95,8 +95,8 @@ namespace CountryClubMVC.Controllers
         {
             if (model.IdOsoba == null && model.Username == null && model.Lozinka== null)
             {
-                model.Username = "mariohorvat";
-                model.Lozinka="admin!";
+                model.Username = "anahendija";
+                model.Lozinka= "loZinKa";
             }
 
             var osoba = await osobeRepository.GetOsobaByUsername(model.Username);

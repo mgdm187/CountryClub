@@ -1,12 +1,6 @@
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Net.Http.Json;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace CountryClub.IntegrationTests
 {
@@ -28,21 +22,25 @@ namespace CountryClub.IntegrationTests
 
         private async Task<string> GetJwtAsync()
         {
-            var _content = JsonConvert.SerializeObject(
-                new DomainModel.AccountInfo
-                {
-                    IdOsoba = 0,
-                    Username = "mariohorvat",
-                    Lozinka = "admin!"
-                });
+/*            Dictionary<string, string> jsonValues = new Dictionary<string, string>();
+            jsonValues.Add("Username", "mariohorvat");
+            jsonValues.Add("Lozinka", "admin!");
 
-            var buffer = System.Text.Encoding.UTF8.GetBytes(_content);
-            var byteContent = new ByteArrayContent(buffer);
-            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            StringContent sc = new StringContent(JsonConvert.SerializeObject(jsonValues), UnicodeEncoding.UTF8, "application/json");
+            HttpResponseMessage response = await _client.PostAsync("/Account/Prijava", sc);
+            string content = await response.Content.ReadAsStringAsync();*/
 
-            var response = await _client.PostAsync("/Account/Prijava", byteContent);
+            var requestBody = JsonConvert.SerializeObject(new DomainModel.AccountInfo
+            {
+                IdOsoba = 0,
+                Username = "mariohorvat",
+                Lozinka = "admin!"
+            });
+            var postRequest = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
-            var registrationResponse = response.Content;
+            var response = _client.PostAsync("/Account/Prijava", postRequest).GetAwaiter().GetResult();
+            var rawResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
             return null;
         }
     }

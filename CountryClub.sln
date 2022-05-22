@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainServices", "DomainSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryClubMVC", "CountryClubMVC\CountryClubMVC.csproj", "{3A0B6676-D6C8-40CD-A531-19B030075570}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryClub.IntegrationTests", "CountryClub.IntegrationTests\CountryClub.IntegrationTests.csproj", "{F6D28FB6-D108-4377-A885-731E483F9A48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryClub.IntegrationTests", "CountryClub.IntegrationTests\CountryClub.IntegrationTests.csproj", "{F6D28FB6-D108-4377-A885-731E483F9A48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryClub.UnitTests", "CountryClub.UnitTests\CountryClub.UnitTests.csproj", "{56DE66B8-62C4-4D7E-ABB2-C512656C231F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{F6D28FB6-D108-4377-A885-731E483F9A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6D28FB6-D108-4377-A885-731E483F9A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6D28FB6-D108-4377-A885-731E483F9A48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56DE66B8-62C4-4D7E-ABB2-C512656C231F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56DE66B8-62C4-4D7E-ABB2-C512656C231F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56DE66B8-62C4-4D7E-ABB2-C512656C231F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56DE66B8-62C4-4D7E-ABB2-C512656C231F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
